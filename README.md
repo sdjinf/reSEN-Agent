@@ -5,9 +5,9 @@
 ## 怎么启动？How to Start?
 最推荐的方案如下\
 0. 环境（推荐环境，该教程以推荐环境为基准而编写的）：
-  - Python 3.14及以上版本
+  - [Python](https://www.python.org/downloads/) 3.14及以上版本
     - 该项目基于Python 3.14开发的，最低测试过的版本为3.14，版本跨度太大可能造成未知bug
-  - Git
+  - [Git](https://git-scm.com/install/)
   - Windows / Linux / MacOS
     - 没有bash则无法使用一键脚本
 1. 你需要一台可联网的设备用于获取项目源代码和依赖项
@@ -96,7 +96,7 @@
     - [config.json](./configure/config.json)
       - 基础配置文件，该文件的所有配置均可在f2界面内修改
       - 配置语义(参考值与默认值不同)
-      
+
         | 键 | 说明 | 参考值 |
         | --- | --- | --- |
         | `apikey` | OpenAI 兼容服务的 API Key | NO-API_KEY |
