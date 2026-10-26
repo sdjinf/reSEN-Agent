@@ -91,6 +91,12 @@
     >tui包是用户界面基础，该包详细编写和定义了用户的使用界面
     - [main.py](./tui/main.py)
       - `main.py`是用户使用的入口，可以看作程序的起点，一切的一切都从此开始
+  - [history](./history/)
+    >history用于存放记忆
+    - [long](./history/long/)
+      - 长期记忆，永久存储
+    - [short](./history/short/)
+      - 短期记忆，随用随删
   - [configure/](./configure/)
     >configure文件夹用于存储配置文件
     - [config.json](./configure/config.json)
