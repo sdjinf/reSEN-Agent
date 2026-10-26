@@ -4,11 +4,7 @@ __pycache__/
 *.pyo
 *.pyd
 */*.json
-
-# 运行期目录：配置、记忆、技能、会话历史，含子目录
 configure/
 skills/
 history/
-
-# 运行期热插拔工具目录：由 AI 动态增删，不进版本库
 agentapi/tools/
