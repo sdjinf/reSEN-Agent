@@ -6,10 +6,10 @@
 最推荐的方案如下\
 0. 环境（推荐环境，该教程以推荐环境为基准而编写的）：
   - Python 3.14及以上版本
-    - 该项目基于3.14开发的，最低测试过的版本为3.14，版本跨度太大可能造成未知bug
+    - 该项目基于Python 3.14开发的，最低测试过的版本为3.14，版本跨度太大可能造成未知bug
   - Git
   - Windows / Linux / MacOS
-    - 只有dash则无法使用一键脚本
+    - 没有bash则无法使用一键脚本
 1. 你需要一台可联网的设备用于获取项目源代码和依赖项
   - 手动启动
     1. 获取代码
@@ -26,12 +26,12 @@
     ``` powershell
     # Windows(PowerShell)
     python -m venv .venv
-    .venv/Scrpit/activate
+    .venv/Scrpits/activate.ps1
     ```
     ``` batch
     rem Windows(cmd)
     python -m venv .venv
-    .venv/Scrpit/activate
+    .venv/Scrpits/activate.bat
     ```
     3. 安装依赖
     ``` bash
@@ -58,7 +58,7 @@
       python .\api\peer_api.py
       ```
     5. 首次启动
-      - 首次启动需要设置apikey和accesskey
+      - 首次启动需要设置apikey和accesskey才能开始使用功能
       - 在用户界面中按下`f2`快速切换到可视化配置界面
   - 自动启动
     1. Linux/MacOS
@@ -95,14 +95,15 @@
     >configure文件夹用于存储配置文件
     - [config.json](./configure/config.json)
       - 基础配置文件，该文件的所有配置均可在f2界面内修改
-      - 配置语义
+      - 配置语义(参考值与默认值不同)
+      
         | 键 | 说明 | 参考值 |
         | --- | --- | --- |
         | `apikey` | OpenAI 兼容服务的 API Key | NO-API_KEY |
         | `baseurl` | 服务地址 | https://api.deepseek.com/ |
         | `modelname` | 默认模型名，TUI 中可点击切换 | deepseek-flash |
         | `access_key` | peer 服务鉴权密钥；设为空字符串表示不鉴权，保持 `NO-ACCESS_KEY` 则拒绝启动 peer | NO-ACCESS_KEY |
-        | `reasoning_effort` | 推理强度：`none` / `minimal` / `low` / `medium` / `high` / `xhigh` / `max` | minimal |
+        | `reasoning_effort` | 推理强度：`minimal` / `low` / `medium` / `high` / `xhigh` / `max` | minimal |
         | `context_limit` | 上下文上限（token），用于底部用量显示，填写超过服务提供的用量也不会加长上下文 | 128000 |
         | `peer_serve` | 启动 TUI 时是否自动拉起 peer 服务| true |
         | `peer_tools` | 是否允许远端 peer 驱动本地工具 | true |
@@ -112,8 +113,8 @@
     - [memory.json](./configure/memory.json)
       - 记忆持久化文件，你的所有会话都会存在这里面
     - [peer_identity.json](./configure/peer_identity.json)
-      - 连接持久化
-    - [peer/](./configure/peer/)
+      - 指纹隔离
+    - [peer/](./configure/connect.json)
       - 连接持久化
   - [agentapi/](./agentapi)
     >agentapi是reSEN-Agent的核心，为上层提供了大模型操作设备和自我升级的基础
@@ -128,13 +129,13 @@
         - [tool_run.py](./agentapi/meta_tools/tool_run.py)
           - `tool-run`工具提供了*运行*热插拔工具的能力
         - [tool_search.py](./agentapi/meta_tools/tool_search.py)
-          - `tool-search`工具*搜索和加载*热插拔工具的能力
+          - `tool-search`工具提供了*搜索和加载*热插拔工具的能力
         - [tool_skill.py](./agentapi/meta_tools/tool_skill.py)
           - `tool-skill`工具提供了与*技能*相关操作的能力
         - [tool_view.py](./agentapi/meta_tools/tool_view.py)
           - `tool-view`工具提供了*审查*热插拔工具代码的能力
-      - [tools](./agentapi/tools/)
-        - tools的正式名称为`hotplug-tools`，即`热插拔工具`，热插拔工具赋予了Agent执行任意操作的能力，并且可以按需定制
+    - [tools](./agentapi/tools/)
+      - tools的正式名称为`hotplug-tools`，即`热插拔工具`，热插拔工具赋予了Agent执行任意操作的能力，并且可以按需定制
   - [api](./api/)
     >api包是远程控制的接口，为Agent间互相操作提供了网络通道
     - [peer_api.py](./api/peer_api.py)
