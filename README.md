@@ -93,7 +93,7 @@
       - `main.py`是用户使用的入口，可以看作程序的起点，一切的一切都从此开始
   - [history](./history/)
     >history用于存放记忆
-    - [long](./history/long/)
+    - [long](./history/long/) 
       - 长期记忆，永久存储
     - [short](./history/short/)
       - 短期记忆，随用随删
