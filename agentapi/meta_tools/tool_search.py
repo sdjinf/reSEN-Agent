@@ -29,6 +29,7 @@ class tool_search(meta_tool):
                     "List or search hot-pluggable tool modules under the tools/ directory. "
                     "Without a keyword all tools are returned; with a keyword only tools "
                     "whose name or description contains it are returned."
+                    "There might be a lot of tools, so you shouldn't use empty searches unless necessary."
                 ),
                 "parameters": {
                     "type": "object",
