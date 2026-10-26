@@ -243,6 +243,29 @@ def tools_enabled() -> bool:
     return config.bool("peer_tools", True)
 
 
+_LOOPBACK = {"127.0.0.1", "localhost", "::1"}
+
+
+def is_loopback(host: str) -> bool:
+    """监听地址是否只对本机可见。"""
+    text = (host or "").strip().strip("[]").lower()
+    return text in _LOOPBACK or text.startswith("127.")
+
+
+def guard_exposure(host: str, access_key: str) -> None:
+    """空 access_key 等于**没有**密钥，只允许绑回环，否则拒启。
+
+    注意这与密钥长短无关：空串不是一个弱密钥，是根本没有密钥 ——
+    攻击者不需要猜，配同样一个空串就能连上。约束应当是“模式”而不是“长度”。
+    """
+    if access_key or is_loopback(host):
+        return
+    raise api_error(
+        f"access_key 为空时只允许监听回环地址（当前 {host}）。空密钥等于无鉴权："
+        f"请把 access_key 写进 {_CONFIG}，或把 peer_host 改成 127.0.0.1"
+    )
+
+
 def configured_address(cfg: dick | None = None) -> tuple[str, int]:
     """监听地址：优先 config.json 的 ``peer_host``/``peer_port``，缺失或非法时回落默认值。"""
     cfg = cfg if cfg is not None else config
@@ -298,14 +321,17 @@ def make_server(
         ),
         cfg.str("modelname"),
     )
+    bind_host, bind_port = configured_address(cfg)
+    effective_host = host if host else bind_host
+    effective_port = port if port is not None else bind_port
+    guard_exposure(effective_host, access_key)
     enabled = tools_enabled() if use_tools is None else use_tools
     handler = partial(_handle, api, enabled, lambda msg: print(f"[peer] {msg}", flush=True))
-    bind_host, bind_port = configured_address(cfg)
     return PeerServer(
         api,
         handler,
-        host if host else bind_host,
-        port if port is not None else bind_port,
+        effective_host,
+        effective_port,
         access_key,
         enabled,
     )

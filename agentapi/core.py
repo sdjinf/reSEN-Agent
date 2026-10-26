@@ -155,7 +155,30 @@ class core:
         self._dick.pop("config")
         self._dick.update()
 
+    def _migrate_dotted_keys(self) -> list[str]:
+        """把 ``config.peer_serve`` 这类带点号的扁平键迁回 ``peer_serve``。
+
+        ``dick`` 只按字面键取值，所以 ``"config.peer_serve": false`` 永远不会生效，
+        表现出来就是“设置里把 peer 关了，peer 照样起在 0.0.0.0”。
+        迁移时以扁平键为准：扁平键不存在（或为 null）才用点号键的值。
+        """
+        moved: list[str] = []
+        for key in list(self._dick.items()):
+            if not isinstance(key, str) or not key.startswith("config."):
+                continue
+            flat = key[len("config."):]
+            if not flat or "." in flat:
+                continue
+            if self._dick.any(flat, None) is None:
+                self._dick.set(flat, self._dick.any(key, None))
+                moved.append(f"{key} → {flat}")
+            self._dick.pop(key)
+        if moved:
+            self._dick.update()
+        return moved
+
     def _load_config(self) -> dict[str, Any]:
+        self._migrate_dotted_keys()
         legacy = self._dick.any("config", None)
         if isinstance(legacy, dict) and legacy:
             for key, value in legacy.items():
