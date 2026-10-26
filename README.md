@@ -14,7 +14,7 @@
   - 手动启动
     1. 获取代码
     ``` bash
-    git clone https://github.com/sdjdll/reSEN_Agent.git
+    git clone https://github.com/sdjinf/reSEN_Agent.git
     cd reSEN_Agent
     ```
     2. 创建虚拟环境
