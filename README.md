@@ -1,5 +1,5 @@
 # reSEN-Agent 一个可以自己升级的Agent
-> 该项目部分代码由deepseek-flash生成，所有代码均采用MIT协议开源
+> 该项目部分代码由deepseek-flash生成，所有代码均采用MIT协议开源 \
 > 感谢textual和openai的开源代码，这为我节省了不少时间
 
 ## 怎么启动？How to Start?
